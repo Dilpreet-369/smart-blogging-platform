@@ -53,7 +53,7 @@ const TRENDING_POSTS = [
   // { id: 4, author: 'Sam Altman', title: 'Moore\\'s Law for Everything', date: 'Mar 16', readTime: '10 min read' },
 ];
 
-export default function Home() {
+export default function Dashboard() {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans selection:bg-green-200 dark:selection:bg-green-900">
       {/* Navigation Header */}
@@ -66,14 +66,14 @@ export default function Home() {
               </span>
               <div className="hidden md:flex ml-4 items-center bg-gray-50 dark:bg-gray-900 rounded-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200 border border-transparent dark:border-gray-800">
                 <Search className="h-5 w-5 text-gray-400" />
-                <input 
-                  type="text" 
-                  placeholder="Search" 
+                <input
+                  type="text"
+                  placeholder="Search"
                   className="bg-transparent border-none focus:outline-none ml-2 text-sm w-48 text-gray-900 dark:text-gray-100 placeholder-gray-500"
                 />
               </div>
             </div>
-            
+
             <div className="flex items-center gap-6">
               <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-light">
                 <Edit className="h-4 w-4" />
@@ -84,9 +84,9 @@ export default function Home() {
                 <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#0a0a0a]"></span>
               </button>
               <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-green-400 to-blue-500 p-0.5 cursor-pointer hover:scale-105 transition-transform duration-200">
-                <img 
+                <img
                   className="h-full w-full rounded-full object-cover border-2 border-white dark:border-[#0a0a0a]"
-                  src="https://i.pravatar.cc/150?u=me" 
+                  src="https://i.pravatar.cc/150?u=me"
                   alt="User Avatar"
                 />
               </div>
@@ -97,10 +97,10 @@ export default function Home() {
 
       {/* Main Content Area */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row mt-6 lg:mt-12 gap-12">
-        
+
         {/* Left Column (Main Feed) */}
         <div className="w-full lg:w-[65%] xl:w-[70%]">
-          
+
           {/* Main Feed Tabs */}
           <div className="flex border-b border-gray-100 dark:border-gray-800 mb-8 sticky top-16 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm z-40 pt-2 lg:pt-0">
             <button className="text-gray-400 dark:text-gray-500 pb-4 pr-6 hover:text-gray-900 dark:hover:text-white transition-colors">
@@ -127,7 +127,7 @@ export default function Home() {
             {POSTS.map((post) => (
               <article key={post.id} className="flex flex-col sm:flex-row justify-between gap-6 group cursor-pointer border-b border-gray-100 dark:border-gray-800 pb-8 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-4 px-4 rounded-xl transition-colors duration-300">
                 <div className="flex-1 flex flex-col justify-center">
-                  
+
                   {/* Author Meta */}
                   <div className="flex items-center gap-2 mb-3">
                     <img src={post.author.avatar} alt={post.author.name} className="w-5 h-5 rounded-full" />
@@ -166,10 +166,10 @@ export default function Home() {
 
                 {/* Post Cover Image */}
                 <div className="w-full sm:w-[200px] h-48 sm:h-[134px] flex-shrink-0 mt-4 sm:mt-0 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img 
-                    src={post.image} 
-                    alt={post.title} 
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out" 
+                  <img
+                    src={post.image}
+                    alt={post.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
                   />
                 </div>
               </article>
@@ -179,16 +179,16 @@ export default function Home() {
 
         {/* Right Column (Sidebar) */}
         <div className="hidden lg:block w-[35%] xl:w-[30%] pl-8 border-l border-gray-100 dark:border-gray-800 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto pb-12 custom-scrollbar">
-          
+
           <div className="pt-8">
             <h3 className="text-base font-bold text-gray-900 dark:text-white mb-6">Staff Picks</h3>
             <div className="flex flex-col gap-6">
               {TRENDING_POSTS.slice(0, 3).map((post) => (
                 <div key={post.id} className="flex gap-4 group cursor-pointer">
-                  <img 
-                    src={`https://i.pravatar.cc/150?u=staff\${post.id}`} 
-                    alt={post.author} 
-                    className="w-6 h-6 rounded-full" 
+                  <img
+                    src={`https://i.pravatar.cc/150?u=staff\${post.id}`}
+                    alt={post.author}
+                    className="w-6 h-6 rounded-full"
                   />
                   <div className="flex flex-col">
                     <span className="text-sm font-medium text-gray-900 dark:text-gray-100 mb-1">{post.author}</span>
@@ -210,10 +210,10 @@ export default function Home() {
               <TrendingUp className="w-5 h-5 text-gray-900 dark:text-white" strokeWidth={1.5} />
               <h3 className="text-base font-bold text-gray-900 dark:text-white">Recommended topics</h3>
             </div>
-            
+
             <div className="flex flex-wrap gap-2">
               {TOPICS.map((topic, i) => (
-                <button 
+                <button
                   key={i}
                   className="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 border border-transparent dark:border-gray-700 text-sm px-4 py-2 rounded-full transition-colors font-medium border-gray-200/50"
                 >
@@ -254,11 +254,12 @@ export default function Home() {
               ))}
             </div>
           </div>
-          
+
         </div>
       </main>
 
-      <style dangerouslySetInnerHTML={{__html: `
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .custom-scrollbar::-webkit-scrollbar {
           width: 4px;
         }
