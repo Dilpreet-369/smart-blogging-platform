@@ -1,8 +1,12 @@
 "use client";
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { createClient } from "@/lib/supabase/client";
 
-export default function Interests() {
-
+export default function Interests({ userId }: { userId: string }) {
+    const supabase = createClient();
+    const { user } = useUser();
+    const [name, setName] = useState("");
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     const toggleTag = (tag: string) => {
@@ -14,6 +18,23 @@ export default function Interests() {
     };
 
     const tags = ["Technology", "Self Improvement", "Design", "Psychology", "Programming", "Cybersecurity", "Minimalism", "Culture"];
+
+    const handleSubmit = async () => {
+        if (!user) return;
+
+        const { error } = await supabase
+            .from('profiles')
+            .upsert({
+                id: user.id, // The "Anchor" Clerk ID
+                full_name: name,
+            });
+
+        if (error) {
+            console.log(error);
+        } else {
+            window.location.reload(); // Refresh to show the Dashboard
+        }
+    };
 
     return (
         <div className=" bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans selection:bg-green-200 dark:selection:bg-green-900">
@@ -42,9 +63,10 @@ export default function Interests() {
                     <div className="relative">
                         <input
                             type="text"
-                            id="fullname"
-                            name="fullname"
+                            id="name"
+                            name="name"
                             placeholder="Type your name..."
+                            onChange={(e) => { setName(e.target.value) }}
                             className="w-full bg-transparent border-b border-gray-200 dark:border-gray-800 py-4 text-2xl font-serif outline-none transition-all focus:border-black dark:focus:border-white placeholder:text-gray-200 dark:placeholder:text-gray-800"
                             required
                         />
@@ -77,12 +99,12 @@ export default function Interests() {
                                 type="button"
                                 onClick={() => toggleTag(tag)}
                                 className={`
-                    px-6 py-2.5 rounded-full border transition-all active:scale-95 hover:cursor-pointer text-sm font-medium
-                    ${isSelected
+                                    px-6 py-2.5 rounded-full border transition-all active:scale-95 hover:cursor-pointer text-sm font-medium
+                                    ${isSelected
                                         ? "bg-black text-white border-black dark:bg-white dark:text-black dark:border-white"
                                         : "border-gray-200 dark:border-gray-800 text-gray-600 dark:text-gray-400 hover:border-black dark:hover:border-white hover:text-black dark:hover:text-white"
                                     }
-                `}
+                                `}
                             >
                                 {tag}
                             </button>
@@ -90,7 +112,7 @@ export default function Interests() {
                     })}
                 </div>
 
-                <button className="mt-10 bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg rounded-full px-10 py-4 shadow-lg font-medium w-fit active:scale-95 hover:cursor-pointer">
+                <button className="mt-10 bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition-all text-lg rounded-full px-10 py-4 shadow-lg font-medium w-fit active:scale-95 hover:cursor-pointer" onClick={handleSubmit}>
                     Continue
                 </button>
             </div>

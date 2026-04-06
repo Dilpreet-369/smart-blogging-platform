@@ -53,7 +53,7 @@ const TRENDING_POSTS = [
   // { id: 4, author: 'Sam Altman', title: 'Moore\\'s Law for Everything', date: 'Mar 16', readTime: '10 min read' },
 ];
 
-export default function Dashboard() {
+export default function Dashboard({ profile }: { profile: { full_name: string } }) {
   return (
     <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans selection:bg-green-200 dark:selection:bg-green-900">
       {/* Navigation Header */}
