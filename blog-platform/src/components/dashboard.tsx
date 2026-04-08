@@ -1,6 +1,7 @@
-import React from 'react';
+// import React from 'react';
+import Link from 'next/link';
 import { Search, Bell, Edit, BookmarkPlus, MoreHorizontal, TrendingUp, Sparkles } from 'lucide-react';
-
+import { getPosts } from '@/app/actions/getpost'
 const POSTS = [
   {
     id: 1,
@@ -55,7 +56,7 @@ const TRENDING_POSTS = [
 
 export default function Dashboard({ profile }: { profile: { full_name: string } }) {
   return (
-    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans selection:bg-green-200 dark:selection:bg-green-900">
+    <div className="min-h-screen bg-white dark:bg-[#0a0a0a] text-gray-900 dark:text-gray-100 font-sans selection:bg-green-200 dark:selection:bg-green-900 overflow-hidden">
       {/* Navigation Header */}
       <nav className="sticky top-0 z-50 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 transition-colors">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -75,10 +76,12 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
             </div>
 
             <div className="flex items-center gap-6">
-              <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-light">
-                <Edit className="h-4 w-4" />
-                Write
-              </button>
+              <Link href="/write">  
+                <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-light cursor-pointer">
+                  <Edit className="h-4 w-4" />
+                  Write
+                </button>
+              </Link>
               <button className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors relative">
                 <Bell className="h-6 w-6 font-light" strokeWidth={1.5} />
                 <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#0a0a0a]"></span>
@@ -90,19 +93,24 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
                   alt="User Avatar"
                 />
               </div>
+              <Link href="/profile">
+                <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-bold cursor-pointer">
+                  {profile.full_name}
+                </button>
+              </Link>
             </div>
           </div>
         </div>
       </nav>
 
       {/* Main Content Area */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row mt-6 lg:mt-12 gap-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row mt-6 lg:mt-12 gap-12 h-screen ">
 
         {/* Left Column (Main Feed) */}
         <div className="w-full lg:w-[65%] xl:w-[70%]">
 
           {/* Main Feed Tabs */}
-          <div className="flex border-b border-gray-100 dark:border-gray-800 mb-8 sticky top-16 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm z-40 pt-2 lg:pt-0">
+          <div className="flex border-b border-gray-100 dark:border-gray-800 mb-8 sticky top-16 bg-white/90 dark:bg-[#0a0a0a]/90 backdrop-blur-sm z-40 lg:pt-0">
             <button className="text-gray-400 dark:text-gray-500 pb-4 pr-6 hover:text-gray-900 dark:hover:text-white transition-colors">
               <span className="flex items-center justify-center h-6 w-6 rounded-full border border-gray-300 dark:border-gray-600">
                 +
@@ -123,17 +131,17 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
           </div>
 
           {/* Posts Feed */}
-          <div className="flex flex-col gap-8 pb-20">
+          <div className="flex flex-col gap-8 pb-20 h-[calc(100vh-150px)] overflow-y-auto overflow-x-hidden custom-scrollbar px-4">
             {POSTS.map((post) => (
               <article key={post.id} className="flex flex-col sm:flex-row justify-between gap-6 group cursor-pointer border-b border-gray-100 dark:border-gray-800 pb-8 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-900/50 -mx-4 px-4 rounded-xl transition-colors duration-300">
                 <div className="flex-1 flex flex-col justify-center">
 
                   {/* Author Meta */}
                   <div className="flex items-center gap-2 mb-3">
-                    <img src={post.author.avatar} alt={post.author.name} className="w-5 h-5 rounded-full" />
+                    {/* <img src={post.author.avatar} alt={post.author.name} className="w-5 h-5 rounded-full" /> */}
                     <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{post.author.name}</span>
                     <span className="text-gray-400 dark:text-gray-500 text-xs">•</span>
-                    <span className="text-sm text-gray-500 dark:text-gray-400">{post.date}</span>
+                    {/* <span className="text-sm text-gray-500 dark:text-gray-400">{post.date}</span> */}
                     <div className="hidden sm:flex items-center gap-1 text-yellow-500 ml-1">
                       <Sparkles className="w-3 h-3" />
                     </div>
@@ -150,11 +158,11 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
                   {/* Post Footer Metadata */}
                   <div className="flex items-center justify-between mt-auto">
                     <div className="flex items-center gap-3">
-                      <span className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-xs px-3 py-1.5 rounded-full font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                      {/* <span className="bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-xs px-3 py-1.5 rounded-full font-medium hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
                         {post.topic}
-                      </span>
+                      </span> */}
                       <span className="text-xs text-gray-500 dark:text-gray-400">
-                        {post.readTime}
+                        {/* {post.readTime} */}
                       </span>
                     </div>
                     <div className="flex items-center gap-4 text-gray-400 dark:text-gray-500">
@@ -166,11 +174,11 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
 
                 {/* Post Cover Image */}
                 <div className="w-full sm:w-[200px] h-48 sm:h-[134px] flex-shrink-0 mt-4 sm:mt-0 rounded-md overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <img
+                  {/* <img
                     src={post.image}
                     alt={post.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-in-out"
-                  />
+                  /> */}
                 </div>
               </article>
             ))}
@@ -178,7 +186,7 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
         </div>
 
         {/* Right Column (Sidebar) */}
-        <div className="hidden lg:block w-[35%] xl:w-[30%] pl-8 border-l border-gray-100 dark:border-gray-800 h-[calc(100vh-4rem)] sticky top-16 overflow-y-auto pb-12 custom-scrollbar">
+        <div className="hidden lg:block w-[35%] xl:w-[30%] pl-8 border-l border-gray-100 dark:border-gray-800 h-[calc(100vh-100px)] sticky top-16 overflow-y-auto pb-24 custom-scrollbar sidebar-fade">
 
           <div className="pt-8">
             <h3 className="text-base font-bold text-gray-900 dark:text-white mb-6">Staff Picks</h3>
@@ -257,8 +265,8 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
 
         </div>
       </main>
-
-      <style dangerouslySetInnerHTML={{
+      
+      {/* <style dangerouslySetInnerHTML={{
         __html: `
         .custom-scrollbar::-webkit-scrollbar {
           width: 4px;
@@ -278,7 +286,7 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
         .custom-scrollbar:hover::-webkit-scrollbar-thumb {
           background: #d1d5db; 
         }
-      `}} />
+      `}} /> */}
     </div>
   );
 }
