@@ -1,9 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { createClient } from "@/lib/supabase/server";
 import LandingPage from "@/components/landingpage";
-import Dashboard from "@/components/dashboard";
 import Interests from "@/components/interests";
-
+import { redirect } from "next/navigation";
 export default async function Page() {
   const { userId } = await auth();
 
@@ -26,5 +25,5 @@ export default async function Page() {
   }
 
   // 5. Profile exists with a name? Show Dashboard
-  return <Dashboard profile={profile} />;
+  redirect("/dashboard");
 }
