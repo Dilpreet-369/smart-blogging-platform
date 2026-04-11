@@ -1,10 +1,10 @@
-import { createClient } from '@/lib/supabase/server'; // Or your MongoDB config
+import { createClient } from '@/lib/supabase/server'; 
 
 export async function getPosts() {
   const supabase = await createClient();
   
   const { data, error } = await supabase
-    .from('posts')
+    .from('blogs')
     .select('*')
     .order('created_at', { ascending: false });
 

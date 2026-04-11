@@ -1,49 +1,51 @@
 // import React from 'react';
 import Link from 'next/link';
 import { Search, Bell, Edit, BookmarkPlus, MoreHorizontal, TrendingUp, Sparkles } from 'lucide-react';
+import { UserButton } from '@clerk/nextjs';
 import { getPosts } from '@/app/actions/getpost'
-const POSTS = [
-  {
-    id: 1,
-    author: { name: 'Sarah Drasner', avatar: 'https://i.pravatar.cc/150?u=sarah' },
-    title: 'The Future of Web Development in 2026',
-    description: 'A deep dive into the newest frameworks, server components, and why we are shifting back to simpler architectures while retaining powerful developer experiences.',
-    date: 'Apr 2',
-    readTime: '6 min read',
-    topic: 'Technology',
-    image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 2,
-    author: { name: 'Addy Osmani', avatar: 'https://i.pravatar.cc/150?u=addy' },
-    title: 'Optimizing JavaScript for the Era of AI',
-    description: 'How AI code assistants are changing the way we write and ship JavaScript, and what it means for overall browser performance and user experience.',
-    date: 'Mar 28',
-    readTime: '9 min read',
-    topic: 'Performance',
-    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 3,
-    author: { name: 'Dan Abramov', avatar: 'https://i.pravatar.cc/150?u=dan' },
-    title: 'React Server Components Explained',
-    description: 'Everything you need to know about React Server Components and how they fundamentally change the mental model of building React applications today.',
-    date: 'Mar 25',
-    readTime: '12 min read',
-    topic: 'React',
-    image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=400&q=80',
-  },
-  {
-    id: 4,
-    author: { name: 'Cassie Evans', avatar: 'https://i.pravatar.cc/150?u=cassie' },
-    title: 'Creating Beautiful Animations on the Web',
-    description: 'A comprehensive guide to using CSS and modern JavaScript to create stunning, accessible micro-animations that enhance user experience delightfully.',
-    date: 'Mar 20',
-    readTime: '8 min read',
-    topic: 'Design',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80',
-  }
-];
+const POSTS = await getPosts();
+// const POSTS = [
+//   {
+//     id: 1,
+//     author: { name: 'Sarah Drasner', avatar: 'https://i.pravatar.cc/150?u=sarah' },
+//     title: 'The Future of Web Development in 2026',
+//     description: 'A deep dive into the newest frameworks, server components, and why we are shifting back to simpler architectures while retaining powerful developer experiences.',
+//     date: 'Apr 2',
+//     readTime: '6 min read',
+//     topic: 'Technology',
+//     image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80',
+//   },
+//   {
+//     id: 2,
+//     author: { name: 'Addy Osmani', avatar: 'https://i.pravatar.cc/150?u=addy' },
+//     title: 'Optimizing JavaScript for the Era of AI',
+//     description: 'How AI code assistants are changing the way we write and ship JavaScript, and what it means for overall browser performance and user experience.',
+//     date: 'Mar 28',
+//     readTime: '9 min read',
+//     topic: 'Performance',
+//     image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=400&q=80',
+//   },
+//   {
+//     id: 3,
+//     author: { name: 'Dan Abramov', avatar: 'https://i.pravatar.cc/150?u=dan' },
+//     title: 'React Server Components Explained',
+//     description: 'Everything you need to know about React Server Components and how they fundamentally change the mental model of building React applications today.',
+//     date: 'Mar 25',
+//     readTime: '12 min read',
+//     topic: 'React',
+//     image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&w=400&q=80',
+//   },
+//   {
+//     id: 4,
+//     author: { name: 'Cassie Evans', avatar: 'https://i.pravatar.cc/150?u=cassie' },
+//     title: 'Creating Beautiful Animations on the Web',
+//     description: 'A comprehensive guide to using CSS and modern JavaScript to create stunning, accessible micro-animations that enhance user experience delightfully.',
+//     date: 'Mar 20',
+//     readTime: '8 min read',
+//     topic: 'Design',
+//     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80',
+//   }
+// ];
 
 const TOPICS = ['Programming', 'Data Science', 'Technology', 'Self Improvement', 'Writing', 'Relationships', 'Machine Learning', 'Productivity'];
 
@@ -53,6 +55,13 @@ const TRENDING_POSTS = [
   { id: 3, author: 'Paul Graham', title: 'How to Do Great Work', date: 'Jul 20', readTime: '45 min read' },
   // { id: 4, author: 'Sam Altman', title: 'Moore\\'s Law for Everything', date: 'Mar 16', readTime: '10 min read' },
 ];
+
+function stripMarkdown(markdown: string) {
+  return markdown
+    .replace(/[#*`_~-]/g, '') // Remove basic symbols
+    .replace(/\[(.*?)]\(.*?\)/g, '$1') // Keep link text, remove URL
+    .trim();
+}
 
 export default function Dashboard({ profile }: { profile: { full_name: string } }) {
   return (
@@ -76,7 +85,7 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
             </div>
 
             <div className="flex items-center gap-6">
-              <Link href="/write">  
+              <Link href="/write">
                 <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-light cursor-pointer">
                   <Edit className="h-4 w-4" />
                   Write
@@ -86,12 +95,13 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
                 <Bell className="h-6 w-6 font-light" strokeWidth={1.5} />
                 <span className="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-[#0a0a0a]"></span>
               </button>
-              <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-green-400 to-blue-500 p-0.5 cursor-pointer hover:scale-105 transition-transform duration-200">
-                <img
+              <div className="h-8 w-8 rounded-full p-0.5 cursor-pointer hover:scale-105 transition-transform duration-200">
+                {/* <img
                   className="h-full w-full rounded-full object-cover border-2 border-white dark:border-[#0a0a0a]"
                   src="https://i.pravatar.cc/150?u=me"
                   alt="User Avatar"
-                />
+                /> */}
+                <UserButton />
               </div>
               <Link href="/profile">
                 <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-bold cursor-pointer">
@@ -139,7 +149,7 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
                   {/* Author Meta */}
                   <div className="flex items-center gap-2 mb-3">
                     {/* <img src={post.author.avatar} alt={post.author.name} className="w-5 h-5 rounded-full" /> */}
-                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{post.author.name}</span>
+                    <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{post.author_name}</span>
                     <span className="text-gray-400 dark:text-gray-500 text-xs">•</span>
                     {/* <span className="text-sm text-gray-500 dark:text-gray-400">{post.date}</span> */}
                     <div className="hidden sm:flex items-center gap-1 text-yellow-500 ml-1">
@@ -148,11 +158,13 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
                   </div>
 
                   {/* Post Title & Description */}
-                  <h2 className="text-2xl font-bold font-sans tracking-tight text-gray-900 dark:text-white mb-2 group-hover:underline decoration-2 underline-offset-2">
-                    {post.title}
-                  </h2>
+                  <Link href={`/blog/${post.id}`} className="group">
+                    <h2 className="text-2xl font-bold font-sans tracking-tight text-gray-900 dark:text-white mb-2 group-hover:underline decoration-2 underline-offset-2">
+                      {post.title}
+                    </h2>
+                  </Link>
                   <p className="text-gray-600 dark:text-gray-300 font-serif leading-relaxed line-clamp-2 md:line-clamp-3 mb-4 sm:pr-8">
-                    {post.description}
+                    {stripMarkdown(post.content)}
                   </p>
 
                   {/* Post Footer Metadata */}
@@ -265,7 +277,7 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
 
         </div>
       </main>
-      
+
       {/* <style dangerouslySetInnerHTML={{
         __html: `
         .custom-scrollbar::-webkit-scrollbar {
