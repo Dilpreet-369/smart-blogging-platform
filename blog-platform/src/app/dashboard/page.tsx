@@ -3,6 +3,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import Dashboard from "@/components/dashboard";
 import Interests from "@/components/interests";
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 export default async function DashboardPage() {
     const { userId } = await auth();
 

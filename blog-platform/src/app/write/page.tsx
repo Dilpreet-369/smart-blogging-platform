@@ -29,7 +29,7 @@ export default function WritePage() {
           </button>
           <button
             onClick={() => publishBlog(title, content)}
-            className="bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-full font-medium hover:opacity-80 transition-all disabled:opacity-50"
+            className="bg-black text-white dark:bg-white dark:text-black px-6 py-2 rounded-full font-medium hover:opacity-80 transition-all disabled:opacity-50 cursor-pointer"
           >
             Publish
           </button>

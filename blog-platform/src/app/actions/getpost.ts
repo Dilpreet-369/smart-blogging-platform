@@ -1,6 +1,9 @@
 import { createClient } from '@/lib/supabase/server'; 
+import { revalidatePath } from 'next/cache';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function getPosts() {
+  noStore;
   const supabase = await createClient();
   
   const { data, error } = await supabase
@@ -12,6 +15,5 @@ export async function getPosts() {
     console.error("Error fetching posts:", error);
     return [];
   }
-  
   return data;
 }

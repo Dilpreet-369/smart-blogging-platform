@@ -85,6 +85,12 @@ export default function Dashboard({ profile }: { profile: { full_name: string } 
             </div>
 
             <div className="flex items-center gap-6">
+              <Link href="/askai">
+                <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-light cursor-pointer">
+                  <Sparkles className="h-4 w-4" />
+                  Ask AI
+                </button>
+              </Link>
               <Link href="/write">
                 <button className="hidden sm:flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors text-sm font-light cursor-pointer">
                   <Edit className="h-4 w-4" />
