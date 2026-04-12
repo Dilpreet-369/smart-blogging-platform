@@ -1,10 +1,13 @@
-import { createClient } from '@/lib/supabase/server'; // Or your MongoDB config
+import { createClient } from '@/lib/supabase/server'; 
+import { revalidatePath } from 'next/cache';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function getPosts() {
+  noStore;
   const supabase = await createClient();
   
   const { data, error } = await supabase
-    .from('posts')
+    .from('blogs')
     .select('*')
     .order('created_at', { ascending: false });
 
@@ -12,6 +15,5 @@ export async function getPosts() {
     console.error("Error fetching posts:", error);
     return [];
   }
-  
   return data;
 }
