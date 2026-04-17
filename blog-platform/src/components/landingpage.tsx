@@ -23,17 +23,13 @@ export default function LandingPage() {
           {/* Wave 1 */}
           <path d="M0 50 Q 25 40 50 50 T 100 50 V 100 H 0 Z" fill="url(#waveGradient)">
             <animate attributeName="d"
-              values="M0 50 Q 25 40 50 50 T 100 50 V 100 H 0 Z;
-                      M0 50 Q 25 60 50 50 T 100 50 V 100 H 0 Z;
-                      M0 50 Q 25 40 50 50 T 100 50 V 100 H 0 Z"
+              values="M0 50 Q 25 40 50 50 T 100 50 V 100 H 0 Z; M0 50 Q 25 60 50 50 T 100 50 V 100 H 0 Z; M0 50 Q 25 40 50 50 T 100 50 V 100 H 0 Z"
               dur="10s" repeatCount="indefinite" />
           </path>
           {/* Wave 2 */}
           <path d="M0 60 Q 25 50 50 60 T 100 60 V 100 H 0 Z" fill="url(#waveGradient)" opacity="0.5">
             <animate attributeName="d"
-              values="M0 60 Q 25 70 50 60 T 100 60 V 100 H 0 Z;
-                      M0 60 Q 25 50 50 60 T 100 60 V 100 H 0 Z;
-                      M0 60 Q 25 70 50 60 T 100 60 V 100 H 0 Z"
+              values="M0 60 Q 25 70 50 60 T 100 60 V 100 H 0 Z; M0 60 Q 25 50 50 60 T 100 60 V 100 H 0 Z; M0 60 Q 25 70 50 60 T 100 60 V 100 H 0 Z"
               dur="15s" repeatCount="indefinite" />
           </path>
         </svg>
